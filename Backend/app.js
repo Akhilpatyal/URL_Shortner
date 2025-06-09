@@ -1,8 +1,12 @@
 import express from "express";
 import { nanoid } from "nanoid";
+import dotenv from "dotenv";
+import connectDb from "./src/config/mongoConfig.js";
+dotenv.config({ path: "./.env" });
 const app = express();
+connectDb();
 
-const PORT = process.env.PORT || 300;
+const PORT = process.env.PORT || 800;
 //for parsing application/json
 app.use(express.json());
 //for parsing application/x-www-form-urlencoded
