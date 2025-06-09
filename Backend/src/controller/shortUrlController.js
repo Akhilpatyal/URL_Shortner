@@ -1,7 +1,8 @@
 import { getShortUrl } from "../dao/shortUrl.js";
 import { createShortUrlServices ,createShortUrlServiceswithUser} from "../service/shortUrl.service.js";
+import wrapAsync from "../utilities/tryCatchWrapper.js";
 
-export const createShortUrl = async (req, res) => {
+export const createShortUrl = wrapAsync(async (req, res) => {
   const { data } = req.body;
   if (!data) {
     return res.status(400).json({ message: "Please provide a valid URL" });
@@ -13,9 +14,9 @@ export const createShortUrl = async (req, res) => {
   }
 
   res.send(process.env.APP_URL + shortUrl);
-};
+});
 
-export const redirectFromShortUrl = async (req, res) => {
+export const redirectFromShortUrl = wrapAsync(async (req, res) => {
   const { id } = req.params;
   const url = await getShortUrl(id);
   if (url) {
@@ -24,4 +25,4 @@ export const redirectFromShortUrl = async (req, res) => {
   } else {
     res.status(404).json({ message: "URL not found" });
   }
-};
+});

@@ -1,11 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDb from "./src/config/mongoConfig.js";
-import ShortUrlModel from "./src/models/shortUrlModel.js";
-
 // import routes
 import shortUrl from "./src/routes/shortUrl.route.js";
-import {redirectFromShortUrl} from "./src/controller/shortUrlController.js";
+import { redirectFromShortUrl } from "./src/controller/shortUrlController.js";
+import { errorHandler } from "./src/utilities/errorHandler.js";
 
 const app = express();
 dotenv.config({ path: "./.env" });
@@ -24,7 +23,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/create", shortUrl);
 
 // get url by id
-app.get("/:id",redirectFromShortUrl);
+app.get("/:id", redirectFromShortUrl);
+
+// error handling
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Your server is running on port ${PORT}`);
