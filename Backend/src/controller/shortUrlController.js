@@ -1,12 +1,16 @@
 import { getShortUrl } from "../dao/shortUrl.js";
-import { createShortUrlServices } from "../service/shortUrl.service.js";
+import { createShortUrlServices ,createShortUrlServiceswithUser} from "../service/shortUrl.service.js";
 
 export const createShortUrl = async (req, res) => {
-  const { url } = req.body;
-  if (!url) {
+  const { data } = req.body;
+  if (!data) {
     return res.status(400).json({ message: "Please provide a valid URL" });
   }
-  const shortUrl = await createShortUrlServices(url);
+  if(data.user){
+      const shortUrl = await createShortUrlServiceswithUser(data.url);
+  }else{
+      const shortUrl = await createShortUrlServices(data.url);
+  }
 
   res.send(process.env.APP_URL + shortUrl);
 };

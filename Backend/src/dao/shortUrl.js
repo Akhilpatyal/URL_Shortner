@@ -15,5 +15,5 @@ export const saveShortUrl=(url,shortUrl,userId)=>{
 
 
 export const getShortUrl=async(id)=>{
-  return await ShortUrlModel.findOne({ shortUrl: id });
+  return await ShortUrlModel.findOneAndUpdate({ shortUrl: id },{$inc:{clicks:1}});
 }
