@@ -3,19 +3,26 @@ import { createShortUrlServices ,createShortUrlServiceswithUser} from "../servic
 import wrapAsync from "../utilities/tryCatchWrapper.js";
 
 export const createShortUrl = wrapAsync(async (req, res) => {
-  const { data } = req.body;
-  console.log(data);
-  if (!data) {
+  const { url, user } = req.body;
+  console.log("URL:", url, "User:", user);
+
+  if (!url) {
     return res.status(400).json({ message: "Please provide a valid URL" });
   }
-  if(data.user){
-      const shortUrl = await createShortUrlServiceswithUser(data);
-  }else{
-      const shortUrl = await createShortUrlServices(data);
+
+  let shortUrl;
+
+  if (user) {
+    shortUrl = await createShortUrlServiceswithUser(url, user);
+  } else {
+    shortUrl = await createShortUrlServices(url);
   }
-  console.log(process.env.APP_URL + shortUrl);
-  res.send(process.env.APP_URL + shortUrl);
+
+  const fullShortUrl = process.env.APP_URL + shortUrl;
+  console.log("Short URL:", fullShortUrl);
+  res.status(201).json({ shortUrl: fullShortUrl });
 });
+
 
 export const redirectFromShortUrl = wrapAsync(async (req, res) => {
   const { id } = req.params;

@@ -1,12 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDb from "./src/config/mongoConfig.js";
+import cors from "cors";
+
 // import routes
 import shortUrl from "./src/routes/shortUrl.route.js";
 import { redirectFromShortUrl } from "./src/controller/shortUrlController.js";
 import { errorHandler } from "./src/utilities/errorHandler.js";
 
 const app = express();
+app.use(cors());
 dotenv.config({ path: "./.env" });
 
 // conect database
