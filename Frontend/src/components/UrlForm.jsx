@@ -1,32 +1,32 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { createShortUrl } from "../api/shortUrl.api";
+// import { useQuery, useMutation } from "@tanstack/react-query";
 const UrlForm = () => {
   const [url, setUrl] = useState("");
   const [copy, setCopy] = useState(false);
   const [shortUrl, setShorturl] = useState("");
 
   const handleSubmit = async () => {
-    const data = await axios.post("http://localhost:800/api/create", { url });
-    console.log(data);
-    setShorturl(data.data.shortUrl);
+  const data = await createShortUrl(url);
+    console.log(data.shortUrl);
+    setShorturl(data.shortUrl);
   };
 
-  // tanstack query   usequery for data fetching
-  const query = useQuery({
-    queryKey: ["repoData"],
-    queryFn: handleSubmit,
-  });
+  // tanstack query   usequery for data fetching  only for understanding 
+  // const query = useQuery({
+  //   queryKey: ["repoData"],
+  //   queryFn: handleSubmit,
+  // });
 
   // use mutation for data posting
-  const mutation = useMutation({
-    mutationFn: handleSubmit,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationFn: handleSubmit,
+  //   onSuccess: () => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries({ queryKey: ["todos"] });
+  //   },
+  // });
 
   // to make feel like it copied
   const handleCopy = () => {
