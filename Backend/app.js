@@ -5,6 +5,7 @@ import cors from "cors";
 
 // import routes
 import shortUrl from "./src/routes/shortUrl.route.js";
+import auth_route from "./src/routes/auth.route.js";
 import { redirectFromShortUrl } from "./src/controller/shortUrlController.js";
 import { errorHandler } from "./src/utilities/errorHandler.js";
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // post route to create a new short URL
+app.use("/api/auth",auth_route);
 app.use("/api/create", shortUrl);
 
 // get url by id
