@@ -10,27 +10,21 @@ const userSchema = mongoose.Schema({
     unique: true,
   },
   password: {
-    type: Number,
-     unique: true,
+    type: String,
+    required: true,
   },
-//   avataar
-avataar:{
-    type:String,
-    required:true,
-    default:function(){
-        return getGravatarUrl(this.email);
-    }
-}
-
-
+  //   avataar
+  avataar: {
+    type: String,
+    required: false,
+    default: "https://www.gravatar.com/avatar/${hash}?=mp",
+  },
 });
-function getGravatar(email) {
-  const crypto = require('crypto'); // Fix: use require correctly
-  const hash = crypto.createHash('md5').update(email.trim().toLowerCase()).digest('hex'); // Fix: 'emial' -> 'email'
-  return `https://www.gravatar.com/avatar/${hash}?=mp`;
-}
-
-
+// function getGravatarUrl(email) {
+//   const crypto = require('crypto'); // Fix: use require correctly
+//   const hash = crypto.createHash('md5').update(email.trim().toLowerCase()).digest('hex'); // Fix: 'emial' -> 'email'
+//   return `https://www.gravatar.com/avatar/${hash}?=mp`;
+// }
 
 const userModel = mongoose.model("User", userSchema);
 export default userModel;
