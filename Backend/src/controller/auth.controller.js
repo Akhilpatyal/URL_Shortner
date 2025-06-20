@@ -11,7 +11,7 @@ export const register = wrapAsync(async (req, res) => {
 
 export const login = wrapAsync(async (req, res) => {
  const {email, password } = req.body;
- const token = await login_User(req.body);
+ const token = await login_User(email, password );
  res.cookie("accesstoken", token, cookieOptions);
  res.status(200).json({ token });
 });
